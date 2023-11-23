@@ -1,3 +1,4 @@
 pub mod common;
+pub mod sum_type;
 pub mod trait_object;
-mod sum_type;
+pub mod type_parameter;

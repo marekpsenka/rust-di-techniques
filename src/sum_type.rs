@@ -1,10 +1,12 @@
-use crate::common::{
-    BarComposed, FooComponent, MockFooComponent, OneFooComponentImpl, OtherFooComponentImpl,
-};
+use crate::common::{BarComposed, FooComponent, OneFooComponentImpl, OtherFooComponentImpl};
 
-enum FooComponentVariant {
+#[cfg(test)]
+use crate::common::MockFooComponent;
+
+pub enum FooComponentVariant {
     One(OneFooComponentImpl),
     Other(OtherFooComponentImpl),
+    #[cfg(test)]
     Mock(MockFooComponent),
 }
 
@@ -13,17 +15,18 @@ impl FooComponent for FooComponentVariant {
         match self {
             FooComponentVariant::One(one) => one.get_number(),
             FooComponentVariant::Other(other) => other.get_number(),
+            #[cfg(test)]
             FooComponentVariant::Mock(mock) => mock.get_number(),
         }
     }
 }
 
-struct BarComposedWithSumType {
+pub struct BarComposedWithSumType {
     foo: FooComponentVariant,
 }
 
 impl BarComposedWithSumType {
-    fn new(foo: FooComponentVariant) -> Self {
+    pub fn new(foo: FooComponentVariant) -> Self {
         Self { foo }
     }
 }
